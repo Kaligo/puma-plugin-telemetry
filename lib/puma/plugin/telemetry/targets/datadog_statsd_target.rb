@@ -24,7 +24,7 @@ module Puma
         #     DatadogStatsdTarget.new(client: client)
         #
         class DatadogStatsdTarget
-          TAGGED_METRICS = [Telemetry::Metrics::WORKERS_BUSY_THREADS].freeze
+          TAGGED_METRICS = [Telemetry::Metrics::REQUESTS_INFLIGHT].freeze
 
           def initialize(client:)
             @client = client

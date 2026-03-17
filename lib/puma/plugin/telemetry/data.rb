@@ -10,7 +10,7 @@ module Puma
         WORKERS_SPAWNED_THREADS = 'workers.spawned_threads'
         WORKERS_MAX_THREADS = 'workers.max_threads'
         WORKERS_REQUESTS_COUNT = 'workers.requests_count'
-        WORKERS_BUSY_THREADS = 'workers.busy_threads'
+        REQUESTS_INFLIGHT = 'requests_inflight'
         QUEUE_BACKLOG = 'queue.backlog'
         QUEUE_CAPACITY = 'queue.capacity'
       end
@@ -23,7 +23,7 @@ module Puma
           Metrics::WORKERS_SPAWNED_THREADS => :workers_spawned_threads,
           Metrics::WORKERS_MAX_THREADS => :workers_max_threads,
           Metrics::WORKERS_REQUESTS_COUNT => :workers_requests_count,
-          Metrics::WORKERS_BUSY_THREADS => :workers_busy_threads,
+          Metrics::REQUESTS_INFLIGHT => :requests_inflight,
           Metrics::QUEUE_BACKLOG => :queue_backlog,
           Metrics::QUEUE_CAPACITY => :queue_capacity
         }.freeze
@@ -65,7 +65,7 @@ module Puma
           @stats.fetch(:running, 0)
         end
 
-        def workers_busy_threads
+        def requests_inflight
           @stats.fetch(:busy_threads, 0)
         end
 
@@ -96,7 +96,7 @@ module Puma
           sum_stat(:running)
         end
 
-        def workers_busy_threads
+        def requests_inflight
           sum_stat(:busy_threads)
         end
 

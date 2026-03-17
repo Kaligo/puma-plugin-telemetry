@@ -21,8 +21,8 @@ module Puma
           # Number of requests performed so far.
           Metrics::WORKERS_REQUESTS_COUNT,
 
-          # Number of threads currently busy processing requests.
-          Metrics::WORKERS_BUSY_THREADS,
+          # Number of requests currently being processed.
+          Metrics::REQUESTS_INFLIGHT,
 
           # Number of requests waiting to be processed.
           Metrics::QUEUE_BACKLOG,

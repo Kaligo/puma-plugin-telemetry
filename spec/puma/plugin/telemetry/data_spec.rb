@@ -8,12 +8,12 @@ module Puma
       RSpec.describe WorkerData do
         subject(:data) { described_class.new(stats) }
 
-        describe '#workers_busy_threads' do
+        describe '#requests_inflight' do
           context 'when busy_threads is present' do
             let(:stats) { { busy_threads: 5 } }
 
             it 'returns the busy_threads value' do
-              expect(data.workers_busy_threads).to eq(5)
+              expect(data.requests_inflight).to eq(5)
             end
           end
 
@@ -21,7 +21,7 @@ module Puma
             let(:stats) { {} }
 
             it 'returns 0' do
-              expect(data.workers_busy_threads).to eq(0)
+              expect(data.requests_inflight).to eq(0)
             end
           end
         end
@@ -30,7 +30,7 @@ module Puma
       RSpec.describe ClusteredData do
         subject(:data) { described_class.new(stats) }
 
-        describe '#workers_busy_threads' do
+        describe '#requests_inflight' do
           context 'when workers have busy_threads' do
             let(:stats) do
               {
@@ -42,7 +42,7 @@ module Puma
             end
 
             it 'sums busy_threads across all workers' do
-              expect(data.workers_busy_threads).to eq(5)
+              expect(data.requests_inflight).to eq(5)
             end
           end
 
@@ -57,7 +57,7 @@ module Puma
             end
 
             it 'treats missing values as 0' do
-              expect(data.workers_busy_threads).to eq(3)
+              expect(data.requests_inflight).to eq(3)
             end
           end
 
@@ -72,7 +72,7 @@ module Puma
             end
 
             it 'returns 0' do
-              expect(data.workers_busy_threads).to eq(0)
+              expect(data.requests_inflight).to eq(0)
             end
           end
         end

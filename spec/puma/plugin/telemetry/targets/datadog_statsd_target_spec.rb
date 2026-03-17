@@ -19,13 +19,13 @@ module Puma
           end
 
           describe '#call' do
-            context 'with workers.busy_threads metric' do
-              let(:telemetry) { { 'workers.busy_threads' => 5 } }
+            context 'with requests_inflight metric' do
+              let(:telemetry) { { 'requests_inflight' => 5 } }
 
               it 'emits with process hostname tag' do
                 target.call(telemetry)
                 expect(client).to have_received(:gauge).with(
-                  'workers.busy_threads',
+                  'requests_inflight',
                   5,
                   tags: ['process:test-host']
                 )
@@ -44,17 +44,17 @@ module Puma
             context 'with mixed metrics' do
               let(:telemetry) do
                 {
-                  'workers.busy_threads' => 5,
+                  'requests_inflight' => 5,
                   'queue.backlog' => 10,
                   'workers.spawned_threads' => 8
                 }
               end
 
-              it 'tags only workers.busy_threads' do
+              it 'tags only requests_inflight' do
                 target.call(telemetry)
 
                 expect(client).to have_received(:gauge).with(
-                  'workers.busy_threads', 5, tags: ['process:test-host']
+                  'requests_inflight', 5, tags: ['process:test-host']
                 )
                 expect(client).to have_received(:gauge).with('queue.backlog', 10)
                 expect(client).to have_received(:gauge).with('workers.spawned_threads', 8)
@@ -75,8 +75,8 @@ module Puma
             end
 
             it 'does not call gethostname on each call' do
-              target.call({ 'workers.busy_threads' => 1 })
-              target.call({ 'workers.busy_threads' => 2 })
+              target.call({ 'requests_inflight' => 1 })
+              target.call({ 'requests_inflight' => 2 })
               expect(Socket).to have_received(:gethostname).once
             end
           end

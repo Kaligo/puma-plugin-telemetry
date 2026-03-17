@@ -41,7 +41,7 @@ module Puma
             'workers.spawned_threads' => 1,
             'workers.max_threads' => 1,
             'workers.requests_count' => 0,
-            'workers.busy_threads' => 0,
+            'requests_inflight' => 0,
             'queue.backlog' => 0,
             'queue.capacity' => 1
           }
@@ -83,13 +83,13 @@ module Puma
 
           lines = ([line.slice(/workers.*/)] + Array.new(6) { @server.next_line.strip })
 
-          # workers.busy_threads should have hostname tag, others should not
+          # requests_inflight should have hostname tag, others should not
           expect(lines[0]).to eq('workers.booted:1|g')
           expect(lines[1]).to eq('workers.total:1|g')
           expect(lines[2]).to eq('workers.spawned_threads:1|g')
           expect(lines[3]).to eq('workers.max_threads:1|g')
           expect(lines[4]).to eq('workers.requests_count:0|g')
-          expect(lines[5]).to eq("workers.busy_threads:0|g|#process:#{hostname}")
+          expect(lines[5]).to eq("requests_inflight:0|g|#process:#{hostname}")
           expect(lines[6]).to eq('queue.backlog:0|g')
         end
       end

@@ -1,0 +1,28 @@
+on: [push]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.extra == 'allowed-to-fail' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - "4.0"
+          - "3.4"
+          - "3.3"
+          - "3.2"
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      RUBY_VERSION: ${{ matrix.ruby }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run rubocop
+        run: bundle exec rubocop
+      - name: Run unit tests
+        run: bundle exec rspec

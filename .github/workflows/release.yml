@@ -1,0 +1,17 @@
+name: Release gem
+
+on:
+  release:
+    types: ['published']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build and publish gem
+      uses: jstastny/publish-gem-to-github@v2.4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        owner: kaligo

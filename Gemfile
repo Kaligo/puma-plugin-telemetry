@@ -7,6 +7,10 @@ gemspec
 
 gem 'dogstatsd-ruby'
 
+# Ruby 4 removed these from stdlib
+gem 'cgi'
+gem 'logger'
+
 gem 'rack'
 gem 'rake', '~> 13.2'
 gem 'rspec', '~> 3.13'

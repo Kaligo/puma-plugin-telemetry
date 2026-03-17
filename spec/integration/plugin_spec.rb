@@ -89,7 +89,7 @@ module Puma
           expect(lines[2]).to eq('workers.spawned_threads:1|g')
           expect(lines[3]).to eq('workers.max_threads:1|g')
           expect(lines[4]).to eq('workers.requests_count:0|g')
-          expect(lines[5]).to eq("requests_inflight:0|g|#process:#{hostname}")
+          expect(lines[5]).to eq("requests_inflight:0|g|#pod:#{hostname}")
           expect(lines[6]).to eq('queue.backlog:0|g')
         end
       end

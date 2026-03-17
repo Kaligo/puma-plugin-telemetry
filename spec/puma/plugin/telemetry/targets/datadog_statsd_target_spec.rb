@@ -22,12 +22,12 @@ module Puma
             context 'with requests_inflight metric' do
               let(:telemetry) { { 'requests_inflight' => 5 } }
 
-              it 'emits with process hostname tag' do
+              it 'emits with pod hostname tag' do
                 target.call(telemetry)
                 expect(client).to have_received(:gauge).with(
                   'requests_inflight',
                   5,
-                  tags: ['process:test-host']
+                  tags: ['pod:test-host']
                 )
               end
             end
@@ -54,7 +54,7 @@ module Puma
                 target.call(telemetry)
 
                 expect(client).to have_received(:gauge).with(
-                  'requests_inflight', 5, tags: ['process:test-host']
+                  'requests_inflight', 5, tags: ['pod:test-host']
                 )
                 expect(client).to have_received(:gauge).with('queue.backlog', 10)
                 expect(client).to have_received(:gauge).with('workers.spawned_threads', 8)

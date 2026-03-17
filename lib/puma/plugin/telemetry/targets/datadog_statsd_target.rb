@@ -45,7 +45,7 @@ module Puma
           def call(telemetry)
             telemetry.each do |metric, value|
               if TAGGED_METRICS.include?(metric)
-                @client.gauge(metric, value, tags: ["process:#{@hostname}"])
+                @client.gauge(metric, value, tags: ["pod:#{@hostname}"])
               else
                 @client.gauge(metric, value)
               end
